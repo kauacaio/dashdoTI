@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --background-color: #f0f2f5;
+    --card-background: #fff;
+    --text-color: #1d1d1f;
+    --secondary-text: #6e6e73;
+    --border-color: #e2e2e7;
+    --link-color: #007aff;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+.header {
+    background-color: var(--card-background);
+    padding: 4rem 0 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-family: 'SF Pro Display', sans-serif;
+    margin: 0;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.header p {
+    font-family: 'SF Pro Text', sans-serif;
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    animation: fadeIn 1s ease-in-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.screen {
+    display: none;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.screen.active {
+    display: block;
+}
+
+.section-title {
+    font-family: 'SF Pro Display', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Cards & Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--secondary-text);
+}
+
+.card:hover .card-icon {
+    background-color: var(--link-color);
+    border-color: var(--link-color);
+}
+
+.card:hover .card-icon svg {
+    color: var(--card-background);
+}
+
+.card h3 {
+    font-family: 'SF Pro Display', sans-serif;
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+        
+.large-card {
+    grid-column: span 2;
+    text-align: left;
+    padding: 2.5rem;
+}
+        
+.large-card h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+        
+.large-card p {
+    font-size: 1rem;
+    color: var(--secondary-text);
+}
+
+.agenda-item {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Apple TV Style Carousel */
+.tutorial-scroller-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tutorial-scroller-container::-webkit-scrollbar {
+    display: none;
+}
+
+.tutorial-grid {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.tutorial-card {
+    flex-shrink: 0;
+    width: 320px;
+    height: 180px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-decoration: none;
+}
+
+.tutorial-card:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+    z-index: 10;
+}
+
+.tutorial-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tutorial-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.tutorial-card:hover .tutorial-card-info {
+    opacity: 1;
+}
+
+.tutorial-card-info h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Library Grid */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.library-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-decoration: none;
+    color: var(--text-color);
+}
+        
+.library-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.library-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    display: block;
+}
+
+.library-card-info {
+    padding: 1rem;
+}    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>TI Dashboard</h1>
+        <p>A central de recursos da equipe de TI.</p>
+    </header>
+
+    <main class="container">
+        <div id="dashboard-screen" class="screen active">
+            <h2 class="section-title">Acessos Rápidos</h2>
+            <div class="grid-container" id="dashboard-links">
+                <a href="pages/tutorials/tutorials.html" class="card" onclick="showScreen('tutorials-screen')">
+                    <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play-circle"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></div>
+                    <h3>Tutoriais</h3>
+                </a>
+                <a href="#" class="card" onclick="showScreen('library-screen')">
+                    <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V6.5A2.5 2.5 0 0 0 17.5 4h-10A2.5 2.5 0 0 0 5 6.5v11A2.5 2.5 0 0 1 4 19.5z"></path></svg></div>
+                    <h3>Biblioteca Virtual</h3>
+                </a>
+                <a href="#" class="card">
+                    <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tool"><path d="M14.7 6.3l-2.9-2.9c-.3-.3-.7-.5-1.2-.5H5.5A2.5 2.5 0 0 0 3 6.5v11c0 1.4.6 2.5 2.5 2.5h11c1.4 0 2.5-.6 2.5-2.5v-5.1c0-.5-.2-1-.5-1.3l-2.9-2.9c-.3-.3-.7-.5-1.2-.5z"></path></svg></div>
+                    <h3>Sistema de Chamados</h3>
+                </a>
+                <a href="#" class="card">
+                    <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg></div>
+                    <h3>Inventário</h3>
+                </a>
+                <div class="card large-card">
+                    <h3>Agenda Interativa</h3>
+                    <p>Fique por dentro dos próximos eventos e reuniões importantes.</p>
+                    <div id="agenda-list" style="margin-top: 1rem;">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tutorials-screen" class="screen">
+            <a href="#" class="back-button" onclick="showScreen('dashboard-screen')">← Voltar</a>
+            <h2 class="section-title">Tutoriais em Destaque</h2>
+            <div class="tutorial-scroller-container">
+                <div class="tutorial-grid" id="tutorials-container">
+                    </div>
+            </div>
+        </div>
+
+        <div id="library-screen" class="screen">
+            <a href="#" class="back-button" onclick="showScreen('dashboard-screen')">← Voltar</a>
+            <h2 class="section-title">Biblioteca de Recursos</h2>
+            <div class="item-grid" id="library-container">
+                </div>
+        </div>
+    </main>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+const showScreen = (screenId) => {
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    document.getElementById(screenId).classList.add('active');
+};
+
+window.showScreen = showScreen;
+
+// Dados Mocados
+const agenda = [
+    { event: "Reunião de Alinhamento", date: "26 de Setembro", time: "10:00" },
+    { event: "Treinamento de Segurança", date: "03 de Outubro", time: "14:00" },
+    { event: "Manutenção de Servidor", date: "10 de Outubro", time: "22:00" },
+];
+
+const tutorials = [
+    { title: "Como Resetar a Senha do AD", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=1" },
+    { title: "Configuração de VPN", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=2" },
+    { title: "Backup de Dados", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=3" },
+    { title: "Monitoramento de Rede", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=4" },
+    { title: "Instalação de Software", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=5" },
+    { title: "Solução de Problemas de Rede", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageUrl: "https://picsum.photos/400/250?random=6" },
+];
+
+const library = [
+    { title: "Manual de Boas Práticas", fileUrl: "#", coverUrl: "https://picsum.photos/300/400?random=7" },
+    { title: "Guia de Resolução de Problemas", fileUrl: "#", coverUrl: "https://picsum.photos/300/400?random=8" },
+    { title: "Documentação de Servidores", fileUrl: "#", coverUrl: "https://picsum.photos/300/400?random=9" },
+    { title: "Política de Acesso", fileUrl: "#", coverUrl: "https://picsum.photos/300/400?random=10" },
+    { title: "Manual de Segurança Cibernética", fileUrl: "#", coverUrl: "https://picsum.photos/300/400?random=11" },
+];
+
+// Funções de Renderização
+const renderAgenda = () => {
+    const container = document.getElementById('agenda-list');
+    container.innerHTML = '';
+    agenda.forEach(item => {
+        const p = document.createElement('p');
+        p.className = 'agenda-item';
+        p.innerHTML = `<strong>${item.date}</strong>: ${item.event}`;
+        container.appendChild(p);
+    });
+};
+
+const renderTutorials = () => {
+    const container = document.getElementById('tutorials-container');
+    container.innerHTML = '';
+    tutorials.forEach((item) => {
+        const card = document.createElement('a');
+        card.href = item.videoUrl;
+        card.target = "_blank";
+        card.className = 'tutorial-card';
+        card.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.title}">
+            <div class="tutorial-card-info">
+                <h4>${item.title}</h4>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+};
+
+const renderLibrary = () => {
+    const container = document.getElementById('library-container');
+    container.innerHTML = '';
+    library.forEach((item) => {
+        const card = document.createElement('a');
+        card.href = item.fileUrl;
+        card.className = 'library-card';
+        card.innerHTML = `
+            <img src="${item.coverUrl}" alt="${item.title}">
+            <div class="library-card-info">
+                <h4>${item.title}</h4>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+};
+
+// Inicializa a renderização
+renderAgenda();
+renderTutorials();
+renderLibrary();
+});    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+/* Estilos para a tela da dashboard */
+:root {
+    --background-color: #f0f2f5;
+    --card-background: #fff;
+    --text-color: #1d1d1f;
+    --secondary-text: #6e6e73;
+    --border-color: #e2e2e7;
+    --link-color: #007aff;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+.header {
+    background-color: var(--card-background);
+    padding: 4rem 0 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-family: 'SF Pro Display', sans-serif;
+    margin: 0;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.header p {
+    font-family: 'SF Pro Text', sans-serif;
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    animation: fadeIn 1s ease-in-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-family: 'SF Pro Display', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--secondary-text);
+}
+
+.card:hover .card-icon {
+    background-color: var(--link-color);
+    border-color: var(--link-color);
+}
+
+.card:hover .card-icon svg {
+    color: var(--card-background);
+}
+
+.card h3 {
+    font-family: 'SF Pro Display', sans-serif;
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+        
+.large-card {
+    grid-column: span 2;
+    text-align: left;
+    padding: 2.5rem;
+}
+        
+.large-card h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+        
+.large-card p {
+    font-size: 1rem;
+    color: var(--secondary-text);
+}
+
+.agenda-item {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+}

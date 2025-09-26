@@ -1,0 +1,113 @@
+/* Estilos para a tela da biblioteca */
+:root {
+    --background-color: #f0f2f5;
+    --card-background: #fff;
+    --text-color: #1d1d1f;
+    --secondary-text: #6e6e73;
+    --border-color: #e2e2e7;
+    --link-color: #007aff;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+.header {
+    background-color: var(--card-background);
+    padding: 4rem 0 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-family: 'SF Pro Display', sans-serif;
+    margin: 0;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.header p {
+    font-family: 'SF Pro Text', sans-serif;
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    animation: fadeIn 1s ease-in-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.back-button:hover {
+    transform: translateX(-5px);
+    opacity: 0.8;
+}
+
+.section-title {
+    font-family: 'SF Pro Display', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.library-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-decoration: none;
+    color: var(--text-color);
+}
+        
+.library-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.library-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    display: block;
+}
+
+.library-card-info {
+    padding: 1rem;
+}

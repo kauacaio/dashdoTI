@@ -1,0 +1,132 @@
+/* PALETA E REGRAS GLOBAIS */
+:root {
+    --color-primary: #007AFF;
+    --color-dark: #101010; 
+    --color-light-dark: #2C2C2E;
+    --color-text-light: #F9F9F9;
+    --color-text-secondary: #AAAAAA;
+    --color-bg-light: #F0F0F0;
+    --color-bg-card-light: #FFFFFF;
+    --content-padding: 3rem; 
+    --shadow-deep-light: 0 8px 30px rgba(0, 0, 0, 0.08); 
+    --shadow-deep-dark: 0 12px 40px rgba(0, 0, 0, 0.6); 
+}
+
+/* Modo Escuro */
+body.dark-theme { background-color: var(--color-dark); color: var(--color-text-light); }
+.dark-theme .page-header { background-color: var(--color-dark); border-color: var(--color-light-dark); }
+.dark-theme .ti-play-logo, .dark-theme .section-title { color: var(--color-text-light); }
+.dark-theme .search-container input { background-color: var(--color-light-dark); border-color: var(--color-light-dark); color: var(--color-text-light); }
+.dark-theme .tutorial-card { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); }
+
+/* ANIMAÇÕES */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseIndicator { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg-light);
+    color: var(--color-dark);
+    margin: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease-in-out;
+}
+
+/* Visibilidade controlada pelo JS */
+.content-wrapper, .page-header {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s;
+}
+
+.content-wrapper.ready, .page-header.ready {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.system-loading {
+    overflow: hidden; 
+}
+
+/* SPLASH SCREEN */
+.splash-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-dark); 
+    z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 1; transition: opacity 1s ease-out;
+}
+.splash-content { text-align: center; color: var(--color-text-light); }
+.splash-quote {
+    font-family: 'Poppins', sans-serif; font-size: 2.5rem; font-weight: 500; margin-bottom: 2rem; letter-spacing: 0.05em;
+    opacity: 0; animation: fadeIn 1s ease-out 0.5s forwards;
+}
+.splash-button {
+    background-color: var(--color-primary); color: white; border: none; padding: 1rem 3rem; border-radius: 8px;
+    font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: background-color 0.3s, transform 0.2s;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+.splash-screen.hidden { display: none; }
+
+
+/* HEADER E BUSCA */
+.page-header { padding: 1rem var(--content-padding); position: sticky; top: 0; z-index: 20; transition: background-color 0.5s; }
+.ti-play-logo { font-size: 1.8rem; font-weight: 800; color: var(--color-primary); letter-spacing: 0.05em; text-transform: uppercase; margin: 0; }
+.search-container input {
+    background-color: var(--color-bg-light); border: 1px solid var(--color-light-gray); border-radius: 20px; 
+    padding: 0.5rem 1.5rem; width: 250px; font-family: 'Inter', sans-serif; color: var(--color-dark); transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+}
+.search-container input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3); }
+
+/* BANNER */
+.top-banner-section {
+    width: calc(100% - 2 * var(--content-padding)); height: 600px; position: relative; overflow: hidden;
+    margin: 0 var(--content-padding) 3rem var(--content-padding); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.banner-carousel { transition: transform 1s cubic-bezier(0.65, 0.05, 0.36, 1); height: 100%; }
+.banner-item { min-width: 100%; height: 100%; background-size: cover; background-position: center; position: relative; }
+.banner-content {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 5rem 80px 4rem 80px; color: white;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.1));
+}
+.banner-title { font-size: 4.5rem; font-weight: 800; margin: 0 0 0.8rem 0; letter-spacing: -0.05em; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7); }
+.banner-subtitle { font-size: 1.5rem; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+.play-button { padding: 1rem 2.5rem; font-weight: 600; background-color: var(--color-primary); color: white; border-radius: 8px; text-decoration: none; transition: background-color 0.3s, transform 0.2s; }
+.banner-indicators { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 30; }
+.indicator { width: 10px; height: 10px; background-color: rgba(255, 255, 255, 0.5); border-radius: 50%; transition: background-color 0.3s; cursor: pointer; }
+.indicator.active { background-color: var(--color-primary); animation: pulseIndicator 1.5s infinite; }
+
+/* CARDS MEMORÁVEIS */
+.tutorial-row-grid { display: flex; overflow-x: auto; gap: 1.5rem; padding-bottom: 1.5rem; scrollbar-width: none; }
+.tutorial-card {
+    flex-shrink: 0; width: 280px; height: 160px; border-radius: 12px; box-shadow: var(--shadow-deep-light);
+    overflow: hidden; position: relative; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer; text-decoration: none; background-color: var(--color-dark); 
+}
+.card-image-wrapper { width: 100%; height: 100%; overflow: hidden; position: relative; }
+.card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.tutorial-card:hover .card-image-wrapper img { transform: scale(1.15); }
+
+.card-title-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; color: white;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)); transition: opacity 0.3s;
+}
+.card-title-overlay h4 { font-size: 1rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.card-title-below { font-size: 1rem; font-weight: 600; color: var(--color-dark); margin-top: 0.75rem; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.4s; }
+.tutorial-card:hover { transform: translateY(-10px); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5); z-index: 10; }
+
+/* MODAL DE VÍDEO */
+.video-modal {
+    display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto;
+    background-color: rgba(0, 0, 0, 0.98); backdrop-filter: blur(8px); animation: fadeIn 0.3s ease-in-out;
+}
+.modal-content {
+    position: relative; width: 90%; max-width: 1000px; background: transparent; border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9); aspect-ratio: 16 / 9;
+}
+.modal-content iframe { width: 100%; height: 100%; border-radius: 12px; }
+.close-button {
+    position: absolute; top: -3rem; right: -3rem; color: #fff; font-size: 30px; font-weight: bold; background: rgba(255, 255, 255, 0.1);
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: none; cursor: pointer; opacity: 0.7; transition: opacity 0.3s;
+}

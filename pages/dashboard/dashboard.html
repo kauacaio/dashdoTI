@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>TI Dashboard</h1>
+        <p>A central de recursos da equipe de TI.</p>
+    </header>
+
+    <main class="container">
+        <h2 class="section-title">Acessos Rápidos</h2>
+        <div class="grid-container">
+            <a href="../tutorials/tutorials.html" class="card">
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play-circle"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></div>
+                <h3>Tutoriais</h3>
+            </a>
+            <a href="../library/library.html" class="card">
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V6.5A2.5 2.5 0 0 0 17.5 4h-10A2.5 2.5 0 0 0 5 6.5v11A2.5 2.5 0 0 1 4 19.5z"></path></svg></div>
+                <h3>Biblioteca Virtual</h3>
+            </a>
+            <a href="#" class="card">
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tool"><path d="M14.7 6.3l-2.9-2.9c-.3-.3-.7-.5-1.2-.5H5.5A2.5 2.5 0 0 0 3 6.5v11c0 1.4.6 2.5 2.5 2.5h11c1.4 0 2.5-.6 2.5-2.5v-5.1c0-.5-.2-1-.5-1.3l-2.9-2.9c-.3-.3-.7-.5-1.2-.5z"></path></svg></div>
+                <h3>Sistema de Chamados</h3>
+            </a>
+            <a href="#" class="card">
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg></div>
+                <h3>Inventário</h3>
+            </a>
+            <div class="card large-card">
+                <h3>Agenda Interativa</h3>
+                <p>Fique por dentro dos próximos eventos e reuniões importantes.</p>
+                <div id="agenda-list" style="margin-top: 1rem;">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../data/mock-data.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
