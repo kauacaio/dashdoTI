@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TI Play - Streaming Corporativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #f5f5f7;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+            padding: 20px 40px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+
+        /* Botão de menu */
+        .menu-button {
+            background: none;
+            border: none;
+            color: #f5f5f7;
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: auto; /* Move o botão para o lado direito */
+        }
+
+        /* Exibir o botão de menu no mobile */
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+
+            nav ul {
+                display: none; /* Ocultar o menu de navegação */
+            }
+        }
+        
+        /* Banner promocional */
+        .banner {
+            margin-top: 80px;
+            padding: 40px;
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding-top: 60px;
+        }
+        
+        .banner h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .banner p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #a1a1a6;
+        }
+        
+        .banner-button {
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .banner-button:hover {
+            background-color: #0056CC;
+        }
+        
+        .thumb-scroll {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .thumb-scroll img {
+            height: 100%;
+            margin-right: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: scrollThumbs 30s linear infinite;
+        }
+        
+        @keyframes scrollThumbs {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Seções de conteúdo */
+        .section {
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .content-card {
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #1c1c1e;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        .card-thumb {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .card-info {
+            padding: 15px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .card-desc {
+            font-size: 14px;
+            color: #a1a1a6;
+        }
+        
+        /* Modal de vídeo */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            background-color: #1c1c1e;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2c2c2e;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: #a1a1a6;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-modal:hover {
+            color: #fff;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            background-color: #000;
+        }
+        
+        #youtubePlayer {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            position: relative;
+        }
+        
+        #youtubeIframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .modal-info {
+            padding: 20px;
+        }
+        
+        .modal-desc {
+            color: #a1a1a6;
+            line-height: 1.6;
+        }
+        
+        .video-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .video-tag {
+            background-color: #2c2c2e;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        /* Indicador de carregamento */
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #007AFF;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid #2c2c2e;
+            color: #a1a1a6;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            nav ul li {
+                margin-left: 15px;
+            }
+            
+            .banner {
+                height: 300px;
+                padding: 20px;
+            }
+            
+            .banner h1 {
+                font-size: 32px;
+            }
+            
+            .banner p {
+                font-size: 16px;
+            }
+            
+            .thumb-scroll {
+                width: 50%;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        /* Responsividade para tablets (telas menores que 768px) */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .banner {
+                height: auto;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .banner h1 {
+                font-size: 32px;
+            }
+
+            .banner p {
+                font-size: 16px;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        /* Responsividade para smartphones (telas menores que 480px) */
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            nav ul li a {
+                font-size: 14px;
+            }
+
+            .banner h1 {
+                font-size: 24px;
+            }
+
+            .banner p {
+                font-size: 14px;
+            }
+
+            .banner-button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            .content-card {
+                padding: 10px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+
+            .card-desc {
+                font-size: 12px;
+            }
+        }
+
+        /* Modal de Navegação */
+        .nav-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-modal.active {
+            display: flex;
+        }
+
+        .nav-modal-content {
+            background-color: #1c1c1e;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .nav-modal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-modal-list li {
+            margin: 15px 0;
+        }
+
+        .nav-modal-list li a {
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-modal-list li a:hover {
+            color: #007AFF;
+        }
+
+        .close-nav-modal {
+            background: none;
+            border: none;
+            color: #f5f5f7;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">TI<span>Play</span></div>
+        <button class="menu-button" id="openNavModal">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Banner promocional -->
+    <section class="banner" id="inicio">
+        <div class="banner-content">
+            <h1>Treinamentos de TI que inspiram</h1>
+            <p>Descubra tutoriais, cursos e conteúdos exclusivos para o seu desenvolvimento profissional.</p>
+            <button class="banner-button">Explorar Conteúdo</button>
+        </div>
+        <div class="thumb-scroll">
+            <!-- Thumbnails que passam como banner promocional -->
+            <img src="https://placehold.co/300x400/007AFF/FFFFFF?text=Segurança" alt="Segurança">
+            <img src="https://placehold.co/300x400/34C759/FFFFFF?text=Cloud" alt="Cloud">
+            <img src="https://placehold.co/300x400/FF9500/FFFFFF?text=DevOps" alt="DevOps">
+            <img src="https://placehold.co/300x400/FF3B30/FFFFFF?text=Redes" alt="Redes">
+            <img src="https://placehold.co/300x400/5856D6/FFFFFF?text=Programação" alt="Programação">
+            <img src="https://placehold.co/300x400/FF2D55/FFFFFF?text=IA" alt="Inteligência Artificial">
+        </div>
+    </section>
+
+    <!-- Seção de Treinamentos -->
+    <section class="section" id="treinamentos">
+        <h2 class="section-title">Tutoriais </h2>
+        <div class="content-grid">
+            <!-- Cards de conteúdo -->
+            <div class="content-card" data-video="H1SVZLj5Bjg" data-title="Introdução à Segurança Cibernética" data-desc="Aprenda os fundamentos da segurança cibernética e como proteger sistemas contra ameaças comuns." data-tags="Fundamental,Computing,Informatics">
+                <img src="https://placehold.co/400x225/007AFF/FFFFFF?text=Segurança" alt="Segurança" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Troca de Senha</h3>
+                    <p class="card-desc">JumpCloud</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Processo padrão" data-desc="Aprenda a como trocar sua senha da JumpcCloud.." data-tags="Greenn Geral">
+                <img src="https://placehold.co/400x225/34C759/FFFFFF?text=Cloud" alt="Cloud" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Fundamentos de Cloud Computing</h3>
+                    <p class="card-desc">1h 20min • Intermediário</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="DevOps: Integração Contínua" data-desc="Aprenda a implementar pipelines de integração contínua em projetos de desenvolvimento." data-tags="Avançado,DevOps,Desenvolvimento">
+                <img src="https://placehold.co/400x225/FF9500/FFFFFF?text=DevOps" alt="DevOps" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">DevOps: Integração Contínua</h3>
+                    <p class="card-desc">1h 10min • Avançado</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Redes: Troubleshooting Avançado" data-desc="Técnicas avançadas para identificar e resolver problemas complexos em redes corporativas." data-tags="Avançado,Redes,Infraestrutura">
+                <img src="https://placehold.co/400x225/FF3B30/FFFFFF?text=Redes" alt="Redes" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Redes: Troubleshooting Avançado</h3>
+                    <p class="card-desc">55 min • Avançado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Tutoriais -->
+    <section class="section" id="tutoriais">
+        <h2 class="section-title">Tutoriais Rápidos</h2>
+        <div class="content-grid">
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Configuração de VPN" data-desc="Passo a passo para configurar uma VPN segura em ambientes corporativos." data-tags="Básico,Rede,Security">
+                <img src="https://placehold.co/400x225/5856D6/FFFFFF?text=VPN" alt="VPN" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Configuração de VPN</h3>
+                    <p class="card-desc">15 min • Básico</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Backup Automatizado" data-desc="Como implementar soluções de backup automatizado para proteger dados críticos." data-tags="Intermediário,Backup,Dados">
+                <img src="https://placehold.co/400x225/FF2D55/FFFFFF?text=Backup" alt="Backup" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Backup Automatizado</h3>
+                    <p class="card-desc">20 min • Intermediário</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Monitoramento de Sistemas" data-desc="Ferramentas e técnicas para monitorar a saúde de sistemas em tempo real." data-tags="Intermediário,Monitoramento,OPS">
+                <img src="https://placehold.co/400x225/5AC8FA/FFFFFF?text=Monitoramento" alt="Monitoramento" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Monitoramento de Sistemas</h3>
+                    <p class="card-desc">25 min • Intermediário</p>
+                </div>
+            </div>
+            
+            <div class="content-card" data-video="dQw4w9WgXcQ" data-title="Otimização de Banco de Dados" data-desc="Estratégias para melhorar o desempenho de bancos de dados em produção." data-tags="Avançado,Database,Performance">
+                <img src="https://placehold.co/400x225/FFCC00/FFFFFF?text=Banco+Dados" alt="Banco de Dados" class="card-thumb">
+                <div class="card-info">
+                    <h3 class="card-title">Otimização de Banco de Dados</h3>
+                    <p class="card-desc">30 min • Avançado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Vídeo -->
+    <div class="modal" id="videoModal">
+        <div class="loading" id="videoLoading">
+            <i class="fas fa-spinner fa-spin"></i> Carregando vídeo...
+        </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Introdução à Segurança Cibernética</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="video-container">
+                <div id="youtubePlayer">
+                    <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div class="modal-info">
+                <div class="video-tags" id="modalTags">
+                    <!-- Tags serão inseridas aqui via JavaScript -->
+                </div>
+                <p class="modal-desc" id="modalDesc">Aprenda os fundamentos da segurança cibernética e como proteger sistemas contra ameaças comuns.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Navegação -->
+    <div class="nav-modal" id="navModal">
+        <div class="nav-modal-content">
+            <button class="close-nav-modal" id="closeNavModal">&times;</button>
+            <ul class="nav-modal-list">
+                <li><a href="dashboard.html">Início</a></li>
+                <li><a href="#treinamentos">Treinamentos</a></li>
+                <li><a href="#tutoriais">Tutoriais</a></li>
+                <li><a href="#destaques">Destaques</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>TI Play &copy; 2025 - Plataforma de Treinamentos para TI</p>
+        <p>by DashdoTI</p>
+    </footer>
+
+    <script>
+        // Funcionalidade do modal de vídeo
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('videoModal');
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalTags = document.getElementById('modalTags');
+            const closeModal = document.querySelector('.close-modal');
+            const contentCards = document.querySelectorAll('.content-card');
+            const videoLoading = document.getElementById('videoLoading');
+            
+            // Função para construir URL do YouTube corretamente
+            function buildYouTubeURL(videoId) {
+                // URL base para embed do YouTube com autoplay e controles modernos
+                return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1&playsinline=1&enablejsapi=1&origin=${window.location.origin}`;
+            }
+            
+            // Função para criar tags
+            function createTags(tagsString) {
+                modalTags.innerHTML = '';
+                if (tagsString) {
+                    const tagsArray = tagsString.split(',');
+                    tagsArray.forEach(tag => {
+                        const tagElement = document.createElement('span');
+                        tagElement.className = 'video-tag';
+                        tagElement.textContent = tag.trim();
+                        modalTags.appendChild(tagElement);
+                    });
+                }
+            }
+            
+            // Abrir modal ao clicar em um card
+            contentCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video');
+                    const title = this.getAttribute('data-title');
+                    const desc = this.getAttribute('data-desc');
+                    const tags = this.getAttribute('data-tags');
+                    
+                    // Mostrar indicador de carregamento
+                    videoLoading.classList.add('active');
+                    
+                    // Construir URL correta para o YouTube
+                    const videoURL = buildYouTubeURL(videoId);
+                    
+                    // Atualizar iframe com a URL correta
+                    youtubeIframe.src = videoURL;
+                    modalTitle.textContent = title;
+                    modalDesc.textContent = desc;
+                    createTags(tags);
+                    
+                    // Mostrar modal com animação
+                    modal.style.display = 'flex';
+                    setTimeout(() => {
+                        modal.classList.add('active');
+                    }, 10);
+                    
+                    // Esconder indicador de carregamento quando o vídeo carregar
+                    youtubeIframe.addEventListener('load', function() {
+                        videoLoading.classList.remove('active');
+                    });
+                });
+            });
+            
+            // Fechar modal
+            function closeVideoModal() {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    youtubeIframe.src = ''; // Para o vídeo ao fechar
+                }, 300);
+            }
+            
+            closeModal.addEventListener('click', closeVideoModal);
+            
+            // Fechar modal ao clicar fora ou pressionar ESC
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeVideoModal();
+                }
+            });
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.style.display === 'flex') {
+                    closeVideoModal();
+                }
+            });
+            
+            // Navegação suave
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Botão do banner
+            document.querySelector('.banner-button').addEventListener('click', function() {
+                document.querySelector('#treinamentos').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Corrigir problema de autoplay em alguns navegadores
+            youtubeIframe.addEventListener('load', function() {
+                // Tentar forçar o play se autoplay não funcionar
+                setTimeout(() => {
+                    if (youtubeIframe.contentWindow) {
+                        try {
+                            youtubeIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        } catch (e) {
+                            console.log('Autoplay não suportado, aguardando interação do usuário');
+                        }
+                    }
+                }, 1000);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const navModal = document.getElementById('navModal');
+            const closeNavModal = document.getElementById('closeNavModal');
+            const openNavModalButton = document.getElementById('openNavModal');
+
+            // Abrir o modal
+            openNavModalButton.addEventListener('click', function () {
+                navModal.classList.add('active');
+            });
+
+            // Fechar o modal
+            closeNavModal.addEventListener('click', function () {
+                navModal.classList.remove('active');
+            });
+
+            // Fechar o modal ao clicar fora dele
+            window.addEventListener('click', function (event) {
+                if (event.target === navModal) {
+                    navModal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
