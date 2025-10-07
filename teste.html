@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashdoTI - Lançamento Épico</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter', sans-serif; background:#0a0a0f; color:#fff; overflow-x:hidden; }
+
+/* Cursor customizado */
+.cursor { position:fixed; width:20px; height:20px; background:#6366f1; border-radius:50%; pointer-events:none; z-index:9999; mix-blend-mode:difference; transition:transform 0.1s ease; }
+.cursor-dot { position:fixed; width:5px; height:5px; background:#fff; border-radius:50%; pointer-events:none; z-index:10000; }
+
+/* Hero fullscreen */
+.hero { position:relative; width:100vw; height:100vh; display:flex; justify-content:center; align-items:center; text-align:center; overflow:hidden; }
+
+/* Fundo sofisticado com grid */
+.hero-bg { position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg,#0a0a0f 0%,#1b1b29 100%); overflow:hidden; z-index:0; }
+.hero-bg::before { content:''; position:absolute; width:100%; height:100%; background-image:radial-gradient(circle at 1px 1px, rgba(99,102,241,0.1) 1px, transparent 1px); background-size:40px 40px; opacity:0.3; }
+
+.particle { position:absolute; border-radius:50%; background:rgba(99,102,241,0.15); animation:floatParticles linear infinite; }
+@keyframes floatParticles {
+  0% { transform:translateY(0) translateX(0) scale(1); opacity:0.5; }
+  50% { transform:translateY(-50vh) translateX(30vw) scale(0.5); opacity:0.2; }
+  100% { transform:translateY(-100vh) translateX(-10vw) scale(1); opacity:0; }
+}
+
+/* Glow orbs de fundo */
+.glow-orb { position:absolute; border-radius:50%; filter:blur(120px); opacity:0.08; animation:float 10s ease-in-out infinite; }
+.orb1 { width:500px; height:500px; background:#6366f1; top:-10%; left:-10%; animation-delay:0s; }
+.orb2 { width:400px; height:400px; background:#8b5cf6; bottom:-10%; right:-10%; animation-delay:3s; }
+@keyframes float { 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(20px,-20px) scale(1.05); } }
+
+/* Conteúdo hero */
+.hero-content { position:relative; z-index:2; max-width:1200px; padding:2rem; }
+.hero-title { font-size:clamp(3rem, 8vw, 7rem); font-weight:700; letter-spacing:-0.03em; line-height:1.1; margin-bottom:1.5rem; opacity:0; animation:fadeInUp 1s ease forwards; color:#fff; }
+.hero-highlight { color:#6366f1; position:relative; display:inline-block; }
+.hero-highlight::after { content:''; position:absolute; bottom:-8px; left:0; width:100%; height:4px; background:#6366f1; border-radius:2px; }
+.hero-subtitle { font-size:clamp(1.1rem, 3vw, 1.6rem); font-weight:400; color:#e2e8f0; margin-bottom:3rem; opacity:0; animation:fadeInUp 1s ease 0.3s forwards; line-height:1.6; max-width:700px; margin-left:auto; margin-right:auto; }
+.hero-buttons { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; opacity:0; animation:fadeInUp 1s ease 0.6s forwards; }
+.btn-primary { padding:1.2rem 2.5rem; background:linear-gradient(135deg,#6366f1 0%,#7c3aed 100%); color:#fff; border-radius:16px; font-weight:600; text-decoration:none; transition:all 0.3s ease; font-size:1.2rem; position:relative; overflow:hidden; border:none; cursor:pointer; box-shadow:0 10px 30px rgba(99,102,241,0.25); }
+.btn-primary::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background:rgba(255,255,255,0.2); transition:width 0.6s, height 0.6s, top 0.6s, left 0.6s; }
+.btn-primary:hover::before { width:400px; height:400px; top:-200px; left:-200px; }
+.btn-primary:hover { transform:translateY(-5px); box-shadow:0 20px 50px rgba(99,102,241,0.35); }
+.btn-secondary { padding:1.2rem 2.5rem; background:rgba(255,255,255,0.05); color:#fff; border-radius:16px; font-weight:600; text-decoration:none; transition:all 0.3s ease; font-size:1.2rem; border:2px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); }
+.btn-secondary:hover { background:rgba(255,255,255,0.1); transform:translateY(-5px); box-shadow:0 20px 50px rgba(255,255,255,0.1); }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+
+/* Mockup central tipo iPhone */
+.hero-mockup { position:absolute; bottom:5%; left:50%; transform:translateX(-50%); width:320px; height:640px; background:linear-gradient(135deg,#1e1e2e,#0f0f18); border-radius:45px; box-shadow:0 60px 120px rgba(0,0,0,0.6),0 0 0 2px rgba(255,255,255,0.05),inset 0 0 20px rgba(99,102,241,0.1); display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); }
+@keyframes floatMockup { 0%,100%{ transform:translateX(-50%) translateY(0) rotateY(-5deg); } 50%{ transform:translateX(-50%) translateY(-30px) rotateY(5deg); } }
+.hero-mockup::after { content:''; position:absolute; width:150%; height:150%; top:-25%; left:-25%; background:radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%); filter:blur(80px); animation:spotlight 6s ease-in-out infinite; }
+@keyframes spotlight { 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(30px,20px); } }
+
+.mockup-notch { position:absolute; top:15px; width:120px; height:25px; background:#0a0a0f; border-radius:0 0 20px 20px; z-index:3; }
+.mockup-screen { width:88%; height:92%; background:linear-gradient(180deg,#1a1a2e 0%,#16162a 100%); border-radius:35px; display:flex; flex-direction:column; padding:2rem 1.5rem; gap:1rem; position:relative; overflow:hidden; box-shadow:inset 0 0 30px rgba(99,102,241,0.1); }
+.mockup-screen::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(99,102,241,0.1) 0%, transparent 100%); pointer-events:none; }
+.mock-header { width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+.mock-avatar { width:40px; height:40px; background:linear-gradient(135deg,#6366f1,#7c3aed); border-radius:50%; animation:pulse 2s ease-in-out infinite; }
+.mock-menu { display:flex; gap:5px; }
+.mock-dot { width:6px; height:6px; background:rgba(255,255,255,0.4); border-radius:50%; }
+.mock-card { width:100%; height:100px; background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.2); border-radius:16px; display:flex; flex-direction:column; justify-content:center; padding:1rem; gap:0.5rem; transition:all 0.3s ease; opacity:0; animation:slideIn 0.5s ease forwards; }
+.mock-card:nth-child(2) { animation-delay:0.2s; }
+.mock-card:nth-child(3) { animation-delay:0.4s; }
+.mock-card:nth-child(4) { animation-delay:0.6s; }
+.mock-bar { width:100%; height:8px; background:rgba(255,255,255,0.15); border-radius:4px; position:relative; overflow:hidden; }
+.mock-bar::after { content:''; position:absolute; top:0; left:0; height:100%; background:linear-gradient(90deg,#6366f1,#7c3aed); border-radius:4px; animation:fillBar 2s ease-in-out infinite; }
+.mock-bar:nth-child(1)::after { width:80%; animation-delay:0s; }
+.mock-bar:nth-child(2)::after { width:60%; animation-delay:0.3s; }
+.mock-bar:nth-child(3)::after { width:90%; animation-delay:0.6s; }
+@keyframes fillBar { 0%,100%{ transform:scaleX(0.3); opacity:0.5; } 50%{ transform:scaleX(1); opacity:1; } }
+@keyframes pulse { 0%,100%{ transform:scale(1); opacity:0.8; } 50%{ transform:scale(1.05); opacity:1; } }
+
+/* Estatísticas flutuantes */
+.floating-stats { position:absolute; z-index:1; animation:floatStat 4s ease-in-out infinite; }
+.stat-card { background:rgba(255,255,255,0.03); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; min-width:150px; opacity:0; animation:fadeInUp 1s ease forwards; }
+.stat-number { font-size:2rem; font-weight:700; background:linear-gradient(135deg,#6366f1,#7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.stat-label { font-size:0.9rem; color:#94a3b8; margin-top:0.5rem; }
+@keyframes floatStat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-20px); } }
+.stat1 { top:20%; left:10%; animation-delay:0s; }
+.stat2 { top:30%; right:8%; animation-delay:1s; }
+.stat3 { bottom:25%; left:8%; animation-delay:2s; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .hero-mockup { width:280px; height:560px; bottom:2%; }
+  .floating-stats { display:none; }
+  .hero-buttons { flex-direction:column; }
+  .btn-primary, .btn-secondary { width:100%; max-width:300px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<section class="hero">
+  <div class="hero-bg" id="particles">
+    <div class="glow-orb orb1"></div>
+    <div class="glow-orb orb2"></div>
+  </div>
+
+  <!-- Estatísticas flutuantes -->
+  <div class="floating-stats stat1" style="opacity:0.7;">
+    <div class="stat-card" style="animation-delay:1s;">
+      <div class="stat-number">99.9%</div>
+      <div class="stat-label">Uptime</div>
+    </div>
+  </div>
+  <div class="floating-stats stat2" style="opacity:0.7;">
+    <div class="stat-card" style="animation-delay:2s;">
+      <div class="stat-number">500+</div>
+      <div class="stat-label">Empresas</div>
+    </div>
+  </div>
+  <div class="floating-stats stat3" style="opacity:0.7;">
+    <div class="stat-card" style="animation-delay:3s;">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Suporte</div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">Apresentamos o <span class="hero-highlight">DashdoTI</span></h1>
+    <p class="hero-subtitle">A forma mais elegante e simples de gerenciar TI.<br>Design, velocidade e inovação em um só lugar.</p>
+    <div class="hero-buttons">
+      <a href="#demo" class="btn-primary">Descubra Agora</a>
+      <a href="#features" class="btn-secondary">Ver Recursos</a>
+    </div>
+  </div>
+
+  <div class="hero-mockup">
+    <div class="mockup-notch"></div>
+    <div class="mockup-screen">
+      <div class="mock-header">
+        <div class="mock-avatar"></div>
+        <div class="mock-menu">
+          <div class="mock-dot"></div>
+          <div class="mock-dot"></div>
+          <div class="mock-dot"></div>
+        </div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-bar"></div>
+        <div class="mock-bar"></div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-bar"></div>
+        <div class="mock-bar"></div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-bar"></div>
+        <div class="mock-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Cursor customizado
+const cursor = document.querySelector('.cursor');
+const cursorDot = document.querySelector('.cursor-dot');
+document.addEventListener('mousemove', e => {
+  cursor.style.transform = `translate(${e.clientX-10}px, ${e.clientY-10}px)`;
+  cursorDot.style.transform = `translate(${e.clientX-2.5}px, ${e.clientY-2.5}px)`;
+});
+
+// Botões
+document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+  btn.addEventListener('mouseenter', (e) => {
+    cursor.style.transform = `translate(${e.clientX-10}px, ${e.clientY-10}px) scale(1.5)`;
+  });
+  btn.addEventListener('mouseleave', (e) => {
+    cursor.style.transform = `translate(${e.clientX-10}px, ${e.clientY-10}px) scale(1)`;
+  });
+});
+
+// Partículas
+const particlesContainer = document.getElementById('particles');
+for(let i=0;i<80;i++){
+  let particle = document.createElement('div');
+  particle.classList.add('particle');
+  particle.style.top = `${Math.random()*100}vh`;
+  particle.style.left = `${Math.random()*100}vw`;
+  particle.style.width = `${Math.random()*6+2}px`;
+  particle.style.height = particle.style.width;
+  particle.style.animationDuration = `${Math.random()*15+10}s`;
+  particle.style.animationDelay = `${Math.random()*5}s`;
+  particlesContainer.appendChild(particle);
+}
+
+// Parallax suave
+document.addEventListener('mousemove', e => {
+  const mockup = document.querySelector('.hero-mockup');
+  const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+  const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+  mockup.style.transform = `translateX(-50%) translateY(${yAxis}px) rotateY(${xAxis}deg)`;
+});
+</script>
+
+</body>
+</html>
